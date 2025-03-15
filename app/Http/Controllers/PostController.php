@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Services\SlugGenerator;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -18,10 +18,10 @@ class PostController extends Controller
             'categories.*' => 'exists:categories,id'
         ]);
         
-        // Crear el post
+        // Crear el post con slug único
         $post = new Post();
         $post->title = $validated['title'];
-        $post->slug = Str::slug($validated['title']);
+        $post->slug = SlugGenerator::generateUniqueSlug($validated['title']);
         $post->excerpt = $validated['excerpt'];
         $post->content = $validated['content'];
         $post->user_id = auth()->id();
