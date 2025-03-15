@@ -14,11 +14,13 @@ class PostFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->sentence(),
-            'slug' => Str::slug($this->faker->sentence()),
-            'excerpt' => $this->faker->text(100),
-            'content' => $this->faker->paragraphs(3, true),
-            'user_id' => User::factory(), // Crea un usuario asociado
+            'title' => $title,
+            'slug' => Str::slug($title),
+            'excerpt' => $this->faker->paragraph(),
+            'content' => $this->faker->paragraphs(5, true),
+            'user_id' => User::factory(),
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }
