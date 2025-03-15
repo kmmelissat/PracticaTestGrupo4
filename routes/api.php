@@ -10,10 +10,10 @@ use App\Http\Controllers\PostController;
 |--------------------------------------------------------------------------
 */
 
-// Ruta para crear posts (sin autenticación para simplificar la prueba)
-Route::post('/posts', [PostController::class, 'store']);
-
-// Si prefieres mantener la autenticación, usa esto en su lugar:
-// Route::middleware('auth:sanctum')->group(function () {
-//     Route::post('/posts', [PostController::class, 'store']);
-// });
+Route::prefix('v1')->group(function () {
+    // Ruta para crear un post
+    Route::post('/posts', [PostController::class, 'store']);
+    
+    // Ruta para listar posts con opción de búsqueda
+    Route::get('/posts', [PostController::class, 'index']);
+});
