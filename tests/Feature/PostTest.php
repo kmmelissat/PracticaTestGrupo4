@@ -10,6 +10,9 @@ test('un usuario puede crear un post con categorías', function () {
     // Crear un usuario autenticado
     $user = User::factory()->create();
     $this->actingAs($user);
+
+    //FUNCIONAAAAAAAAA
+    //si le quitas esas dos lineas no funciona. 
     
     // Crear categorías
     $category1 = Category::factory()->create(['name' => 'noticias']);
