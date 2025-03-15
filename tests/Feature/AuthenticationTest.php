@@ -1,17 +1,17 @@
 <?php
 
-namespace Tests\Feature;
-
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
-class AuthenticationTest extends TestCase
-{
-    use RefreshDatabase;
+uses(RefreshDatabase::class);
 
-    public function test_usuario_no_autenticado_no_puede_acceder_al_endpoint_protegido()
-    {
-        $response = $this->getJson(route('posts.index'));
-        $response->assertStatus(401);
-    }
-}
+test('un usuario no autenticado no puede acceder a un endpoint protegido', function () {
+    // Simular la solicitud GET al endpoint protegido
+    $response = $this->getJson('/api/v1/protegido');
+
+    // Verificar que la respuesta sea 401 (No autenticado)
+    $response->assertStatus(401)
+             ->assertJson([
+                 'message' => 'Unauthenticated.'
+             ]);
+});

@@ -17,3 +17,7 @@ Route::prefix('v1')->group(function () {
     // Ruta para listar posts con opción de búsqueda
     Route::get('/posts', [PostController::class, 'index']);
 });
+
+Route::middleware('auth:sanctum')->get('/v1/protegido', function () {
+    return response()->json(['message' => 'Acceso autorizado']);
+});

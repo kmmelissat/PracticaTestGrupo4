@@ -19,7 +19,7 @@ class ErrorAutenticacionEP extends TestCase
     public function test_unauthenticated_user_cannot_access_protected_endpoints()
     {
         // Intentar acceder al endpoint de listado de posts (suponiendo que está protegido)
-        $response = $this->getJson('/api/posts');
+        $response = $this->getJson('/api/v1/posts');
         
         // Verificar que recibe un código de estado 401 (Unauthorized)
         $this->assertEquals(401, $response->status());
@@ -43,7 +43,7 @@ class ErrorAutenticacionEP extends TestCase
         $this->actingAs($user, 'sanctum');
         
         // Hacer solicitud a un endpoint protegido
-        $response = $this->getJson('/api/posts');
+        $response = $this->getJson('/api/v1/posts');
         
         // Verificar que la solicitud es exitosa
         $response->assertSuccessful();

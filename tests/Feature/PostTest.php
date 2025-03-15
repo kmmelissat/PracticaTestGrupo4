@@ -24,7 +24,7 @@ test('un usuario puede crear un post con categorías', function () {
     ];
     
     // Enviar la solicitud a la ruta correcta
-    $response = $this->postJson('/api/posts', $postData);
+    $response = $this->postJson('/api/v1/posts', $postData);
     
     // Verificar la respuesta
     $response->assertStatus(201)

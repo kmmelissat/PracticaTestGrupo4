@@ -23,7 +23,7 @@ test('se pueden crear posts con títulos duplicados generando slugs únicos', fu
     ];
     
     // Crear el primer post
-    $firstResponse = $this->postJson('/api/posts', $firstPostData);
+    $firstResponse = $this->postJson('/api/v1/posts', $firstPostData);
     
     // Verificar que el primer post se creó correctamente
     $firstResponse->assertStatus(201);
@@ -41,7 +41,7 @@ test('se pueden crear posts con títulos duplicados generando slugs únicos', fu
     ];
     
     // Crear el segundo post con el mismo título
-    $secondResponse = $this->postJson('/api/posts', $secondPostData);
+    $secondResponse = $this->postJson('/api/v1/posts', $secondPostData);
     
     // Verificar que el segundo post se creó correctamente
     $secondResponse->assertStatus(201);
@@ -64,7 +64,7 @@ test('se pueden crear posts con títulos duplicados generando slugs únicos', fu
     ];
     
     // Crear el tercer post con el mismo título
-    $thirdResponse = $this->postJson('/api/posts', $thirdPostData);
+    $thirdResponse = $this->postJson('/api/v1/posts', $thirdPostData);
     
     // Verificar que el tercer post se creó correctamente
     $thirdResponse->assertStatus(201);
