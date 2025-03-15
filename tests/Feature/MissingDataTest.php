@@ -25,7 +25,7 @@ test('error de validación al crear post por falta de datos requeridos', functio
     ];
 
     // Realizar la petición POST sin el título
-    $response = $this->postJson('/api/posts', $postData);
+    $response = $this->postJson('/api/v1/posts', $postData);
 
     // Verificar que la respuesta sea un error de validación (422)
     $response->assertStatus(422);
@@ -41,7 +41,7 @@ test('error de validación al crear post por falta de datos requeridos', functio
     ];
 
     // Realizar la petición POST sin el contenido
-    $response = $this->postJson('/api/posts', $postData);
+    $response = $this->postJson('/api/v1/posts', $postData);
     
     // Verificar que la respuesta sea un error de validación (422)
     $response->assertStatus(422);
@@ -57,7 +57,7 @@ test('error de validación al crear post por falta de datos requeridos', functio
     ];
 
     // Realizar la petición POST sin categorías
-    $response = $this->postJson('/api/posts', $postData);
+    $response = $this->postJson('/api/v1/posts', $postData);
     
     // Verificar que la respuesta sea un error de validación (422)
     $response->assertStatus(422);
