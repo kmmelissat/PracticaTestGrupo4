@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\Post;
 use App\Services\SlugGenerator;
 use Illuminate\Http\Request;
@@ -13,49 +11,44 @@ class PostController extends Controller
     /**
      * Display a listing of the posts with optional search functionality.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request): JsonResponse
     {
-        $query = Post::with(['categories', 'user']);
-        
-        // Aplicar filtro de búsqueda si se proporciona
-        if ($request->has('search') && !empty($request->search)) {
-            $searchTerm = $request->search;
-            $query->where(function ($q) use ($searchTerm) {
-                $q->where('title', 'like', "%{$searchTerm}%")
-                  ->orWhere('excerpt', 'like', "%{$searchTerm}%")
-                  ->orWhere('content', 'like', "%{$searchTerm}%");
-            });
+        try {
+            // Iniciar la consulta filtrada por el usuario autenticado
+            $query = Post::where('user_id', Auth::id());
+            
+            // Aplicar filtro de búsqueda si se proporciona
+            if ($request->has('search') && !empty($request->search)) {
+                $searchTerm = $request->search;
+                $query->where(function ($q) use ($searchTerm) {
+                    $q->where('title', 'like', "%{$searchTerm}%")
+                      ->orWhere('content', 'like', "%{$searchTerm}%");
+                });
+            }
+            
+            // Obtener los posts ordenados por más recientes
+            $posts = $query->orderBy('created_at', 'desc')->get();
+            
+            // Retornar en el formato esperado por las pruebas
+            return response()->json([
+                'status' => 'success',
+                'data' => $posts
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error al obtener los posts: ' . $e->getMessage()
+            ], 500);
         }
-        
-        // Filtrar por usuario autenticado si es necesario
-        // Si quieres filtrar por el usuario actual, descomenta la siguiente línea
-        // $query->where('user_id', Auth::id());
-        
-        $posts = $query->latest()->get();
-        
-        // Transformar la respuesta para que coincida con el formato esperado
-        $formattedPosts = $posts->map(function ($post) {
-            return [
-                'id' => $post->id,
-                'title' => $post->title,
-                'slug' => $post->slug,
-                'excerpt' => $post->excerpt,
-                'categories' => $post->categories->pluck('name'),
-                'user' => $post->user->name,
-                'created_at' => $post->created_at
-            ];
-        });
-        
-        return response()->json($formattedPosts);
     }
 
     /**
      * Store a newly created post in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request): JsonResponse
