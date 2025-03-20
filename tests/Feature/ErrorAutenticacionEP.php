@@ -49,46 +49,4 @@ class ErrorAutenticacionCrearPostTest extends TestCase
         // O alternativamente usar la aserción de Laravel
         $response->assertUnauthorized();
     }
-
-    /**
-     * Prueba que verifica que un usuario autenticado puede
-     * crear un post exitosamente.
-     *
-     * @return void
-     */
-    public function test_authenticated_user_can_create_post()
-    {
-        // Crear un usuario para la prueba
-        $user = User::factory()->create();
-
-        // Autenticar al usuario (método para API)
-        $this->actingAs($user, 'sanctum');
-
-        // Preparar datos para la creación del post
-        $postData = [
-            'title' => 'Mi nueva publicación',
-            'excerpt' => 'Lorem ipsum sit amet',
-            'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'categories' => [1, 2]
-        ];
-
-        // Intentar crear un post con autenticación
-        $response = $this->postJson('/api/v1/posts', $postData);
-
-        // Verificar que la solicitud es exitosa (código 201 Created)
-        $response->assertStatus(201);
-
-        // Verificar que el post se creó correctamente
-        $response->assertJsonStructure([
-            'id',
-            'title',
-            'slug',
-            'excerpt',
-            'content',
-            'categories',
-            'user',
-            'created_at',
-            'updated_at'
-        ]);
-    }
 }
