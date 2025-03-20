@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ErrorAutenticacionCrearPostTest extends TestCase
+class ErrorAutenticacionEP extends TestCase
 {
     use RefreshDatabase;
 
